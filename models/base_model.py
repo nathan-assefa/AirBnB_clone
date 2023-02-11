@@ -28,21 +28,21 @@ class BaseModel:
             self.updated_at = datetime.now()
             models.storage.new(self)
 
-        def __str__(self):
-            """To return the standard string to print function"""
-            return "[{}] ({}) {}".format(
-                    self.__class__.__name__, self.id, self.__dict__
-                    )
+    def __str__(self):
+        """To return the standard string to print function"""
+        return "[{}] ({}) {}".format(
+                self.__class__.__name__, self.id, self.__dict__
+                )
 
-        def save(self):
-            """Save either crated or updated instances"""
-            self.updated_at = datetime.now()
-            models.storage.save()
+    def save(self):
+        """Save either crated or updated instances"""
+        self.updated_at = datetime.now()
+        models.storage.save()
 
-        def to_dict(self):
-            """Puting the data in the dict object"""
-            _dict = self.__dict__.copy()
-            _dict["__class__"] = self.__class__.__name__
-            _dict["created_at"] = self.created_at.isoformat()
-            _dict["updated_at"] = self.updated_at.isoformat()
-            return _dict
+    def to_dict(self):
+        """Puting the data in the dict object"""
+        _dict = self.__dict__.copy()
+        _dict["__class__"] = self.__class__.__name__
+        _dict["created_at"] = self.created_at.isoformat()
+        _dict["updated_at"] = self.updated_at.isoformat()
+        return _dict
