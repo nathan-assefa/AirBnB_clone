@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import cmd
 import re
-import json
 from shlex import split
 from models import storage
 from models.base_model import BaseModel
@@ -11,7 +10,6 @@ from models.city import City
 from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
-
 """This is command line interpreter"""
 
 
@@ -26,13 +24,8 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
 
     __classNames = [
-            "BaseModel",
-            "User",
-            "State",
-            "City",
-            "Place",
-            "Amenity",
-            "Review"]
+            "BaseModel", "User", "State", "City", "Place", "Amenity", "Review"
+            ]
 
     def precmd(self, line):
         """Overriding defult functionality of precmd method"""
@@ -50,19 +43,6 @@ class HBNBCommand(cmd.Cmd):
                     line = "{} {} {} {} {}".format(
                             command, className, arg1, arg2, arg3
                             )
-                elif match := re.search(r"\.", line):
-                    args = [line[: match.span()[0]], line[match.span()[1]:]]
-                    match = re.search(r"\(", args[1])
-                    command = [
-                            args[1][: match.span()[0]],
-                            args[1][match.span()[1]:]
-                            ]
-                    if match := re.search(r'"(.*?)\", (.*)\)', command[1]):
-                        _id = match.group(1)
-                        _dict = match.group(2).replace("'", '"')
-                        line = "{} {} {} .{}".format(
-                                command[0], args[0], _id, _dict
-                                )
             else:
                 line = "{} {} {}".format(command, className, args)
         return cmd.Cmd.precmd(self, line)
@@ -157,18 +137,6 @@ class HBNBCommand(cmd.Cmd):
             print("** attribute name missing **")
         elif len(arg) == 3:
             print("** value missing **")
-        elif len(arg) > 4:
-            if "{" in line:
-                _parse = line.split(".")
-                obj_dict = from_fileClass
-                _dict = {key: obj_dict[key].to_dict() for key in obj_dict}
-                for key, val in _dict.items():
-                    if key == "{}.{}".format(arg[0], arg[1]):
-                        _to_dict = json.loads(_parse[1])
-                        val = {**val, **_to_dict}
-                        className = val["__class__"]
-                        storage.new(eval(className)(**val))
-                        storage.save()
         else:
             obj_dict = from_fileClass
             _dict = {key: obj_dict[key].to_dict() for key in obj_dict}
