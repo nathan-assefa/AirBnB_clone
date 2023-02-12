@@ -146,7 +146,7 @@ class HBNBCommand(cmd.Cmd):
                     className = val["__class__"]
                     storage.new(eval(className)(**val))
                     storage.save()
-    
+
     def emptyline(self):
         """Overriding emptyline method"""
         return False
