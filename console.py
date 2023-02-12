@@ -153,7 +153,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_quit(self, line):
         """Quit command to exit the program"""
-        return True
+        exit()
 
     def do_EOF(self, line):
         """EOF to exit the program"""
