@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""This is command line interpreter"""
 import cmd
 import re
 import json
@@ -10,7 +11,6 @@ from models.city import City
 from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
-"""This is command line interpreter"""
 
 
 class HBNBCommand(cmd.Cmd):
