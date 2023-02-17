@@ -3,7 +3,7 @@
 ## Description
 
     This is the first step of the AirBnB project. The goal of this project is to
-    recreated the AirBnB Website.The console is a command interpreter to manage
+    recreat the AirBnB Website.The console is a command interpreter to manage
     objects for the AirBnb project.
 
 ## Requirements
