@@ -1,8 +1,8 @@
 #!/usr/bin/python3
+"""This is command line interpreter"""
 import cmd
 import re
 import json
-from shlex import split
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
@@ -11,8 +11,6 @@ from models.city import City
 from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
-
-"""This is command line interpreter"""
 
 
 class HBNBCommand(cmd.Cmd):

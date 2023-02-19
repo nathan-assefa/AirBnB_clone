@@ -1,4 +1,5 @@
 footer {
+<<<<<<< HEAD
 	background-color: white;
 	height: 60px;
 	width: 100%;
@@ -12,3 +13,14 @@ footer p{
 	text-align: center;
 	margin-top: 20px;
 }
+=======
+    background-color: white;
+    height: 60px;
+    width: 100%;
+    border-top: 1px solid #CCCCCC;
+    line-height: 60px;
+    position: fixed;
+    bottom: 0px;
+    text-align: center;
+}
+>>>>>>> 045d1b03cd9d81eda7bf35421a2a176f5d99e53a
