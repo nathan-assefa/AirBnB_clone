@@ -29,9 +29,8 @@ class test_console(unittest.TestCase):
 
     def test_emptyline(self):
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd("help emptyline")
-
-            self.assertTrue(f.getvalue().strip())
+            self.assertFalse(HBNBCommand().onecmd(""))
+            self.assertEqual("", f.getvalue().strip())
 
     def test_create(self):
         with patch('sys.stdout', new=StringIO()) as f:
@@ -74,3 +73,75 @@ class test_console(unittest.TestCase):
 
             s = 'To count instances of the same class'
             self.assertEqual(s, f.getvalue().strip())
+
+
+class test_create(unittest.TestCase):
+    """ Checking for 'create' method """
+    
+    def test_class_name_missing(self):
+        s = '** class name missing **'
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create")
+            self.assertEqual(s.strip(), f.getvalue().strip())
+
+    def test_class_name_not_exist(self):
+        s = "** class doesn't exist **"
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create xyz")
+            self.assertEqual(s.strip(), f.getvalue().strip())
+
+    def test_creating_base_model(self):
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create BaseModel")
+            self.assertLess(0, len(f.getvalue().strip()))
+            self.assertEqual(type(f.getvalue()), str)
+            key = 'BaseModel' + '.' + f.getvalue().strip()
+            self.assertIn(key, storage.all())
+
+    def test_creating_user(self):
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create User")
+            self.assertLess(0, len(f.getvalue().strip()))
+            self.assertEqual(type(f.getvalue()), str)
+            key = 'User' + '.' + f.getvalue().strip()
+            self.assertIn(key, storage.all())
+
+    def test_creating_city(self):
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create City")
+            self.assertLess(0, len(f.getvalue().strip()))
+            self.assertEqual(type(f.getvalue()), str)
+            key = 'City' + '.' + f.getvalue().strip()
+            self.assertIn(key, storage.all())
+
+    def test_creating_state(self):
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create State")
+            self.assertLess(0, len(f.getvalue().strip()))
+            self.assertEqual(type(f.getvalue()), str)
+            key = 'State' + '.' + f.getvalue().strip()
+            self.assertIn(key, storage.all())
+
+    def test_creating_review(self):
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create Review")
+            self.assertLess(0, len(f.getvalue().strip()))
+            self.assertEqual(type(f.getvalue()), str)
+            key = 'Review' + '.' + f.getvalue().strip()
+            self.assertIn(key, storage.all())
+
+    def test_creating_amenity(self):
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create Amenity")
+            self.assertLess(0, len(f.getvalue().strip()))
+            self.assertEqual(type(f.getvalue()), str)
+            key = 'Amenity' + '.' + f.getvalue().strip()
+            self.assertIn(key, storage.all())
+
+    def test_creating_place(self):
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create Place")
+            self.assertLess(0, len(f.getvalue().strip()))
+            self.assertEqual(type(f.getvalue()), str)
+            key = 'Place' + '.' + f.getvalue().strip()
+            self.assertIn(key, storage.all())
