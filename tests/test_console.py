@@ -145,3 +145,62 @@ class test_create(unittest.TestCase):
             self.assertEqual(type(f.getvalue()), str)
             key = 'Place' + '.' + f.getvalue().strip()
             self.assertIn(key, storage.all())
+
+
+class test_all():
+    """ Testing all method in the console """
+
+    def test_all_error1(self):
+        s = "** class doesn't exist **"
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("all xyz")
+            self.assertEqual(s, f.getvalue().strip())
+
+    def test_all_base_model(self):
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("BaseModel.all()")
+            for _dict in f:
+                class_name = _dict.split()[0][1:-1]
+                assertEqual(class_name, 'BaseModel')
+
+    def test_all_User(self):
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("User.all()")
+            for _dict in f:
+                class_name = _dict.split()[0][1:-1]
+                assertEqual(class_name, 'User')
+
+    def test_all_city(self):
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("City.all()")
+            for _dict in f:
+                class_name = _dict.split()[0][1:-1]
+                assertEqual(class_name, 'City')
+
+    def test_all_place(self):
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("Place.all()")
+            for _dict in f:
+                class_name = _dict.split()[0][1:-1]
+                assertEqual(class_name, 'Place')
+
+    def test_all_amenity(self):
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("Amenity.all()")
+            for _dict in f:
+                class_name = _dict.split()[0][1:-1]
+                assertEqual(class_name, 'Amenity')
+
+    def test_all_Review(self):
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("Review.all()")
+            for _dict in f:
+                class_name = _dict.split()[0][1:-1]
+                assertEqual(class_name, 'Review')
+
+    def test_all_state(self):
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("State.all()")
+            for _dict in f:
+                class_name = _dict.split()[0][1:-1]
+                assertEqual(class_name, 'State')
