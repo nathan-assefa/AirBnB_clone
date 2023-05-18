@@ -12,6 +12,15 @@ import console
 import pycodestyle
 
 
+class_names = [
+            "BaseModel",
+            "User",
+            "State",
+            "City",
+            "Place",
+            "Review"
+            ]
+
 class_list = [
             "BaseModel",
             "User",
@@ -113,7 +122,7 @@ class TestHBNBCommand_help(unittest.TestCase):
         h = "Updates an instance based on the class name and id"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help update"))
-            self.assertEqual(h, output.getvalue().strip())
+            self.assertEqual(h.strip(), output.getvalue().strip())
 
     def test_help(self):
         """Tests help command."""
@@ -325,41 +334,79 @@ class TestHBNBCommand_destroy(unittest.TestCase):
             self.assertNotIn("{}.{}".format(class_name, obj_id), storage.all())
 
 class TestHBNBCommand_all(unittest.TestCase):
-    """ unittests for the all method """
-    def test_error1(self):
-        """ class does not exist """
-        h = "** class doesn't exist **"
-        with patch("sys.stdout", new=StringIO()) as output:
-            HBNBCommand().onecmd("all MyModel")
-        self.assertEqual(h, output.getvalue().strip())
-        with patch("sys.stdout", new=StringIO()) as output:
-            line = HBNBCommand().precmd("MyModel.all()")
-            HBNBCommand().onecmd(line)
-        self.assertEqual(h, output.getvalue().strip())
+    #Testing all method in the console
 
-    def test_all_allobjects(self):
-        """ unittests for all method for all objects """
-        for class_name in class_list:
-            with patch("sys.stdout", new=StringIO()) as output:
-                HBNBCommand().onecmd("create {}".format(class_name))
-        for class_name in class_list:
-            with patch("sys.stdout", new=StringIO()) as output:
-                HBNBCommand().onecmd("all")
-        self.assertIn("{}".format(class_name), output.getvalue().strip())
+    @classmethod
+    def setUp(self):
+        try:
+            file_name = "file.json"
+            temp_file = "temp.json"
 
-    def test_all_classobjects(self):
-        """ unittests for all method for specific class objects"""
-        for class_name in class_list:
-            with patch("sys.stdout", new=StringIO()) as output:
+            # renaming the file to preserve the data
+            os.rename(file_name, temp_file)
+        except IOError:
+            pass
+
+        # setting up __objects to tests
+        FileStorage.__objects = {}
+
+        # Creating instances for each class for testing pupose
+        for class_name in class_names:
+            with patch("sys.stdout", new=StringIO()) as f:
                 HBNBCommand().onecmd("create {}".format(class_name))
-        for class_name in class_list:
-            with patch("sys.stdout", new=StringIO()) as output:
-                HBNBCommand().onecmd("all {}".format(class_name))
-            self.assertIn("{}".format(class_name), output.getvalue().strip())
-            with patch("sys.stdout", new=StringIO()) as output:
-                line = HBNBCommand().precmd("{}.all()".format(class_name))
-                HBNBCommand().onecmd(line)
-            self.assertIn("{}".format(class_name), output.getvalue().strip())
-            for ch_class in class_list:
-                if ch_class != class_name:
-                    self.assertNotIn("{}".format(ch_class), output.getvalue().strip())
+    
+    @classmethod
+    def tearDown(self):
+        try:
+            # Removing the file having the previous test content
+            os.remove("file.json")
+        except IOError:
+            pass
+
+        try:
+            # Restoring the file.json to its original state
+            os.rename("temp.json", "file.json")
+            # incase 'temp.json' exist(though it won't exist!)
+            os.remove("temp.json")
+        except IOError:
+            pass
+
+    def test_all_error1(self):
+        s = "** class doesn't exist **"
+        with patch("sys.stdout", new=StringIO()) as f:
+            # Ex: all xyz (xyz is just random word)
+            HBNBCommand().onecmd("all xyz")
+            self.assertEqual(s, f.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            # Ex: xyz.all()
+            HBNBCommand().onecmd("xyz.all()")
+            self.assertEqual(s, f.getvalue().strip())
+
+    def test_all_class(self):
+        for class_name in class_names:
+            with patch("sys.stdout", new=StringIO()) as f:
+                # handling the method in this form (Ex: all User)
+                HBNBCommand().onecmd(f"all {class_name}")
+
+            with patch("sys.stdout", new=StringIO()) as f:
+                # handling the method in thid form(Ex: User.all())
+                HBNBCommand().onecmd(f"{class_name}.all()")
+                for _dict in f.keys:
+                    # Using split method we get the name of a class
+                    _cls = _dict.split()[0][1:-1]
+
+                    # checking if the class exist
+                    assertEqual(_cls, f"{class_name}")
+
+                # This for loop iterates over the return values of all method
+                for _dict in f.keys:
+                    # Using split method we get the name of a class
+                    _cls = _dict.split()[0][1:-1]
+
+                    # checking if the class exist
+                    assertEqual(_cls, f"{class_name}")
+
+                    for ch_class in class_names:
+                        if ch_class != class_name:
+                            self.assertNotIn("{}".format(ch_class), output.getvalue().strip())
