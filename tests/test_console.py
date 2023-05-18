@@ -258,3 +258,7 @@ class test_all:
 
                     # checking if the class exist
                     assertEqual(_cls, f"{class_name}")
+
+                    for ch_class in class_names:
+                        if ch_class != class_name:
+                            self.assertNotIn("{}".format(ch_class), output.getvalue().strip())
