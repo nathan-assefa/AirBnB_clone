@@ -185,7 +185,7 @@ class test_create(unittest.TestCase):
             key = "Place" + "." + f.getvalue().strip()
             self.assertIn(key, storage.all())
 
-"""
+'''
 class test_all:
     #Testing all method in the console
 
@@ -262,7 +262,7 @@ class test_all:
                     for ch_class in class_names:
                         if ch_class != class_name:
                             self.assertNotIn("{}".format(ch_class), output.getvalue().strip())
-    """
+'''
 
 class_list = [
             "BaseModel",
