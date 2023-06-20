@@ -109,6 +109,29 @@ class HBNBCommand(cmd.Cmd):
             del from_fileClass[arg[0] + "." + arg[1]]
             storage.save()
 
+    def do_all(self, arg):
+        #Prints all the instances
+        try:
+            arguments = arg.split()
+            objects = storage.all()
+            # let us first check if a class name exists
+            if arguments and arguments[0] not in HBNBCommand.__classNames:
+                print("** class doesn't exist **")
+                return
+            if arguments:
+                new_obj = [
+                    str(obj)
+                    for obj in objects.values()
+                    if arguments[0] == type(obj).__name__
+                ]
+            elif len(arguments) == 0:
+                new_obj = [str(obj) for obj in objects.values()]
+
+            print(new_obj)
+
+        except Exception as e:
+            print(e)
+
     def do_allk(self, arg):
         """Usage: lists all the instances"""
         argl = arg.split()
