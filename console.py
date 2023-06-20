@@ -109,7 +109,7 @@ class HBNBCommand(cmd.Cmd):
             del from_fileClass[arg[0] + "." + arg[1]]
             storage.save()
 
-    def do_all(self, arg):
+    def do_allk(self, arg):
         """Usage: lists all the instances"""
         argl = arg.split()
         if len(argl) > 0 and argl[0] not in HBNBCommand.__classNames:
