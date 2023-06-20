@@ -132,20 +132,6 @@ class HBNBCommand(cmd.Cmd):
         except Exception as e:
             print(e)
 
-    def do_allk(self, arg):
-        """Usage: lists all the instances"""
-        argl = arg.split()
-        if len(argl) > 0 and argl[0] not in HBNBCommand.__classNames:
-            print("** class doesn't exist **")
-        else:
-            objl = []
-            for obj in storage.all().values():
-                if len(argl) > 0 and argl[0] == obj.__class__.__name__:
-                    objl.append(obj.__str__())
-                elif len(argl) == 0:
-                    objl.append(obj.__str__())
-            print(objl)
-
     def do_count(self, line):
         """To count instances of the same class"""
         from_fileClass = storage.all()
